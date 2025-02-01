@@ -17,8 +17,7 @@ public class EquipoController {
 
     @GetMapping
     public ResponseEntity<List<Equipo>> obtenerTodosLosEquipos(){
-        //TODO Requerimiento: Consulta todos los equipos
-        return null;
+        return ResponseEntity.ok(this.equipoService.todosLosEquipos());
     }
 
     @GetMapping("/{id}")
