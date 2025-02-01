@@ -3,6 +3,7 @@ package com.duxsoftware.prueba_tecnica.controllers;
 import com.duxsoftware.prueba_tecnica.model.Equipo;
 import com.duxsoftware.prueba_tecnica.services.EquipoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,14 +28,13 @@ public class EquipoController {
 
     @GetMapping("/buscar")
     public ResponseEntity<List<Equipo>> buscarEquiposPorNombre(@RequestParam String nombre){
-        //TODO Requerimiento: Busqueda de equipos por nombre
-        return null;
+        return ResponseEntity.ok(this.equipoService.buscarEquipoPorNombre(nombre));
     }
 
     @PostMapping
     public ResponseEntity<Equipo> crearEquipo(@RequestBody Equipo nuevoEquipo){
         //TODO Requerimiento: Creacion de un equipo
-        return null;
+        return ResponseEntity.status(HttpStatusCode.valueOf(201)).body(this.equipoService.guardarNuevoEquipo(nuevoEquipo));
     }
 
     @PutMapping("/{id}")
