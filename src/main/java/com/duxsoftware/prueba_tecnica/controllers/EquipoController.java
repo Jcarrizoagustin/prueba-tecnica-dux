@@ -22,8 +22,7 @@ public class EquipoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Equipo> obtenerEquipoPorId(@PathVariable Long id){
-        //TODO Requerimiento: Consulta de un equipo por ID
-        return null;
+        return ResponseEntity.ok(this.equipoService.buscarEquipoPorId(id));
     }
 
     @GetMapping("/buscar")
