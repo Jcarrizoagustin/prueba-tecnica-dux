@@ -40,7 +40,6 @@ public class EquipoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Equipo> actualizarInformacionDeEquipoPorId(@PathVariable Long id,@RequestBody EquipoUpdateDTO equipoUpdateDTO){
-        //TODO Requerimiento: Actualizar de Informacion de un equipo por ID
         return ResponseEntity.ok(this.equipoService.actualizarInformacionDeUnEquipo(id, equipoUpdateDTO));
     }
 

@@ -2,6 +2,8 @@ package com.duxsoftware.prueba_tecnica.services;
 
 import ch.qos.logback.core.util.StringUtil;
 import com.duxsoftware.prueba_tecnica.dtos.EquipoUpdateDTO;
+import com.duxsoftware.prueba_tecnica.enums.MensajeErrorEnum;
+import com.duxsoftware.prueba_tecnica.exceptions.EquipoNoEncontradoException;
 import com.duxsoftware.prueba_tecnica.mappers.EquipoMapper;
 import com.duxsoftware.prueba_tecnica.model.Equipo;
 import com.duxsoftware.prueba_tecnica.repositories.EquipoRepository;
@@ -26,7 +28,7 @@ public class EquipoService {
         if(equipoOpt.isPresent())
             return equipoOpt.get();
         else
-            throw new RuntimeException("Equipo con id: " + id + " inexistente");//TODO refactorizar manejo de errores para cumplir con el requerimiento
+            throw new EquipoNoEncontradoException(MensajeErrorEnum.EQUIPO_NO_ENCONTRADO);//TODO refactorizar manejo de errores para cumplir con el requerimiento
     }
 
     public List<Equipo> buscarEquipoPorNombre(String nombre){
@@ -44,7 +46,7 @@ public class EquipoService {
             Equipo equipoDatosActualizados = EquipoMapper.actualizarDatosEquipoUpdateDTOToEquipo(equipoOptional.get(),equipoUpdateDTO);
             return this.equipoRepository.save(equipoDatosActualizados);
         }else{
-            throw new RuntimeException("No existe el equipo con ID: " + id);
+            throw new EquipoNoEncontradoException(MensajeErrorEnum.EQUIPO_NO_ENCONTRADO);
         }
 
 
@@ -54,7 +56,6 @@ public class EquipoService {
         if(this.equipoRepository.existsById(id))
             this.equipoRepository.deleteById(id);
         else
-            //TODO refactorizar manejo de errores para cumplir con el requerimiento
-            throw new RuntimeException("No existe el equipo con ID: " + id);
+            throw new EquipoNoEncontradoException(MensajeErrorEnum.EQUIPO_NO_ENCONTRADO);
     }
 }
