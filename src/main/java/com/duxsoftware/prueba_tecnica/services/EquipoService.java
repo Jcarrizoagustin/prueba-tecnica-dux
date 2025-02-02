@@ -8,6 +8,7 @@ import com.duxsoftware.prueba_tecnica.factories.EquipoFactory;
 import com.duxsoftware.prueba_tecnica.mappers.EquipoMapper;
 import com.duxsoftware.prueba_tecnica.model.Equipo;
 import com.duxsoftware.prueba_tecnica.repositories.EquipoRepository;
+import com.duxsoftware.prueba_tecnica.validators.EquipoDTOValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,12 +34,14 @@ public class EquipoService {
     }
 
     public Equipo guardarNuevoEquipo(EquipoDTO equipoDTO){
+        EquipoDTOValidator.validarEntradaEquipoDTO(equipoDTO);
         this.validarExistenciaEquipo(equipoDTO);
         Equipo nuevoEquipo = EquipoFactory.crearEquipo(equipoDTO);
         return this.equipoRepository.save(nuevoEquipo);
     }
 
     public Equipo actualizarInformacionDeUnEquipo(Long id, EquipoDTO equipoDTO){
+        EquipoDTOValidator.validarEntradaEquipoDTO(equipoDTO);
         Equipo equipo = this.buscarEquipo(id);
         Equipo equipoDatosActualizados = EquipoMapper.actualizarDatosEquipoUpdateDTOToEquipo(equipo, equipoDTO);
         return this.equipoRepository.save(equipoDatosActualizados);
