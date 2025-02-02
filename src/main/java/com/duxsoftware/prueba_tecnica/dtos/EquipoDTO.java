@@ -1,14 +1,14 @@
 package com.duxsoftware.prueba_tecnica.dtos;
 
-public class EquipoUpdateDTO {
+public class EquipoDTO {
 
     private String nombre;
     private String liga;
     private String pais;
 
-    public EquipoUpdateDTO() {}
+    public EquipoDTO() {}
 
-    public EquipoUpdateDTO(String nombre, String liga, String pais) {
+    public EquipoDTO(String nombre, String liga, String pais) {
         this.nombre = nombre;
         this.liga = liga;
         this.pais = pais;

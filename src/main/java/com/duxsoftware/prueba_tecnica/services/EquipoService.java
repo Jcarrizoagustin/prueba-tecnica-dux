@@ -1,9 +1,9 @@
 package com.duxsoftware.prueba_tecnica.services;
 
-import ch.qos.logback.core.util.StringUtil;
-import com.duxsoftware.prueba_tecnica.dtos.EquipoUpdateDTO;
+import com.duxsoftware.prueba_tecnica.dtos.EquipoDTO;
 import com.duxsoftware.prueba_tecnica.enums.MensajeErrorEnum;
 import com.duxsoftware.prueba_tecnica.exceptions.EquipoNoEncontradoException;
+import com.duxsoftware.prueba_tecnica.factories.EquipoFactory;
 import com.duxsoftware.prueba_tecnica.mappers.EquipoMapper;
 import com.duxsoftware.prueba_tecnica.model.Equipo;
 import com.duxsoftware.prueba_tecnica.repositories.EquipoRepository;
@@ -35,15 +35,16 @@ public class EquipoService {
         return this.equipoRepository.findByNombreContainingIgnoreCase(nombre);
     }
 
-    public Equipo guardarNuevoEquipo(Equipo equipo){
+    public Equipo guardarNuevoEquipo(EquipoDTO equipoDTO){
         //TODO agregar validacion para no persistir un equipo que ya este en BD
-        return this.equipoRepository.save(equipo);
+        Equipo nuevoEquipo = EquipoFactory.crearEquipo(equipoDTO);
+        return this.equipoRepository.save(nuevoEquipo);
     }
 
-    public Equipo actualizarInformacionDeUnEquipo(Long id, EquipoUpdateDTO equipoUpdateDTO){
+    public Equipo actualizarInformacionDeUnEquipo(Long id, EquipoDTO equipoDTO){
         Optional<Equipo> equipoOptional = this.equipoRepository.findById(id);
         if(equipoOptional.isPresent()){
-            Equipo equipoDatosActualizados = EquipoMapper.actualizarDatosEquipoUpdateDTOToEquipo(equipoOptional.get(),equipoUpdateDTO);
+            Equipo equipoDatosActualizados = EquipoMapper.actualizarDatosEquipoUpdateDTOToEquipo(equipoOptional.get(), equipoDTO);
             return this.equipoRepository.save(equipoDatosActualizados);
         }else{
             throw new EquipoNoEncontradoException(MensajeErrorEnum.EQUIPO_NO_ENCONTRADO);
