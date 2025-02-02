@@ -1,5 +1,6 @@
 package com.duxsoftware.prueba_tecnica.controllers;
 
+import com.duxsoftware.prueba_tecnica.dtos.EquipoUpdateDTO;
 import com.duxsoftware.prueba_tecnica.model.Equipo;
 import com.duxsoftware.prueba_tecnica.services.EquipoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,20 +34,18 @@ public class EquipoController {
 
     @PostMapping
     public ResponseEntity<Equipo> crearEquipo(@RequestBody Equipo nuevoEquipo){
-        //TODO Requerimiento: Creacion de un equipo
         return ResponseEntity.status(HttpStatusCode.valueOf(201))
                 .body(this.equipoService.guardarNuevoEquipo(nuevoEquipo));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Equipo> actualizarInformacionDeEquipoPorId(@PathVariable Long id){
+    public ResponseEntity<Equipo> actualizarInformacionDeEquipoPorId(@PathVariable Long id,@RequestBody EquipoUpdateDTO equipoUpdateDTO){
         //TODO Requerimiento: Actualizar de Informacion de un equipo por ID
-        return null;
+        return ResponseEntity.ok(this.equipoService.actualizarInformacionDeUnEquipo(id, equipoUpdateDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminarEquipoPorId(@PathVariable Long id){
-        //TODO Requerimiento: Eliminacion un equipo por ID
         this.equipoService.eliminarEquipoPorId(id);
         return ResponseEntity.noContent().build();
     }

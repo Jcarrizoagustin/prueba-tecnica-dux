@@ -1,6 +1,8 @@
 package com.duxsoftware.prueba_tecnica.services;
 
 import ch.qos.logback.core.util.StringUtil;
+import com.duxsoftware.prueba_tecnica.dtos.EquipoUpdateDTO;
+import com.duxsoftware.prueba_tecnica.mappers.EquipoMapper;
 import com.duxsoftware.prueba_tecnica.model.Equipo;
 import com.duxsoftware.prueba_tecnica.repositories.EquipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,18 @@ public class EquipoService {
     public Equipo guardarNuevoEquipo(Equipo equipo){
         //TODO agregar validacion para no persistir un equipo que ya este en BD
         return this.equipoRepository.save(equipo);
+    }
+
+    public Equipo actualizarInformacionDeUnEquipo(Long id, EquipoUpdateDTO equipoUpdateDTO){
+        Optional<Equipo> equipoOptional = this.equipoRepository.findById(id);
+        if(equipoOptional.isPresent()){
+            Equipo equipoDatosActualizados = EquipoMapper.actualizarDatosEquipoUpdateDTOToEquipo(equipoOptional.get(),equipoUpdateDTO);
+            return this.equipoRepository.save(equipoDatosActualizados);
+        }else{
+            throw new RuntimeException("No existe el equipo con ID: " + id);
+        }
+
+
     }
 
     public void eliminarEquipoPorId(Long id){
