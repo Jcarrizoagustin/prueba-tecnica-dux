@@ -35,4 +35,12 @@ public class EquipoService {
         //TODO agregar validacion para no persistir un equipo que ya este en BD
         return this.equipoRepository.save(equipo);
     }
+
+    public void eliminarEquipoPorId(Long id){
+        if(this.equipoRepository.existsById(id))
+            this.equipoRepository.deleteById(id);
+        else
+            //TODO refactorizar manejo de errores para cumplir con el requerimiento
+            throw new RuntimeException("No existe el equipo con ID: " + id);
+    }
 }

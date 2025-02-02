@@ -34,7 +34,8 @@ public class EquipoController {
     @PostMapping
     public ResponseEntity<Equipo> crearEquipo(@RequestBody Equipo nuevoEquipo){
         //TODO Requerimiento: Creacion de un equipo
-        return ResponseEntity.status(HttpStatusCode.valueOf(201)).body(this.equipoService.guardarNuevoEquipo(nuevoEquipo));
+        return ResponseEntity.status(HttpStatusCode.valueOf(201))
+                .body(this.equipoService.guardarNuevoEquipo(nuevoEquipo));
     }
 
     @PutMapping("/{id}")
@@ -44,8 +45,9 @@ public class EquipoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarEquipoPorId(@PathVariable Long id){
-        //TODO Requerimiento: Actualizar de Informacion de un equipo por ID
-        return null;
+    public ResponseEntity<?> eliminarEquipoPorId(@PathVariable Long id){
+        //TODO Requerimiento: Eliminacion un equipo por ID
+        this.equipoService.eliminarEquipoPorId(id);
+        return ResponseEntity.noContent().build();
     }
 }
