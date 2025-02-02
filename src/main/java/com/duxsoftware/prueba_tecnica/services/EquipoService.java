@@ -24,11 +24,7 @@ public class EquipoService {
     }
 
     public Equipo buscarEquipoPorId(Long id){
-        Optional<Equipo> equipoOpt = this.equipoRepository.findById(id);
-        if(equipoOpt.isPresent())
-            return equipoOpt.get();
-        else
-            throw new EquipoNoEncontradoException(MensajeErrorEnum.EQUIPO_NO_ENCONTRADO);//TODO refactorizar manejo de errores para cumplir con el requerimiento
+        return this.buscarEquipo(id);
     }
 
     public List<Equipo> buscarEquipoPorNombre(String nombre){
@@ -42,15 +38,9 @@ public class EquipoService {
     }
 
     public Equipo actualizarInformacionDeUnEquipo(Long id, EquipoDTO equipoDTO){
-        Optional<Equipo> equipoOptional = this.equipoRepository.findById(id);
-        if(equipoOptional.isPresent()){
-            Equipo equipoDatosActualizados = EquipoMapper.actualizarDatosEquipoUpdateDTOToEquipo(equipoOptional.get(), equipoDTO);
-            return this.equipoRepository.save(equipoDatosActualizados);
-        }else{
-            throw new EquipoNoEncontradoException(MensajeErrorEnum.EQUIPO_NO_ENCONTRADO);
-        }
-
-
+        Equipo equipo = this.buscarEquipo(id);
+        Equipo equipoDatosActualizados = EquipoMapper.actualizarDatosEquipoUpdateDTOToEquipo(equipo, equipoDTO);
+        return this.equipoRepository.save(equipoDatosActualizados);
     }
 
     public void eliminarEquipoPorId(Long id){
@@ -58,5 +48,14 @@ public class EquipoService {
             this.equipoRepository.deleteById(id);
         else
             throw new EquipoNoEncontradoException(MensajeErrorEnum.EQUIPO_NO_ENCONTRADO);
+    }
+
+    private Equipo buscarEquipo(Long id){
+        Optional<Equipo> equipoOptional = this.equipoRepository.findById(id);
+        if(equipoOptional.isPresent()){
+            return equipoOptional.get();
+        }else{
+            throw new EquipoNoEncontradoException(MensajeErrorEnum.EQUIPO_NO_ENCONTRADO);
+        }
     }
 }
