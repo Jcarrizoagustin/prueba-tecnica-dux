@@ -24,4 +24,12 @@ public class ApiExceptionHandler {
     public MensajeError badRequestError(HttpServletRequest request, Exception exception){
         return new MensajeError(exception.getMessage(), HttpStatus.BAD_REQUEST.value());
     }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(
+            Exception.class
+    )
+    public MensajeError internarServerError(HttpServletRequest request, Exception exception){
+        return new MensajeError(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+    }
 }
