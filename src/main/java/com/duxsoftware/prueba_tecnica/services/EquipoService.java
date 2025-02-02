@@ -28,8 +28,7 @@ public class EquipoService {
     }
 
     public List<Equipo> buscarEquipoPorNombre(String nombre){
-        List<Equipo> equipos = this.equipoRepository.findAll();
-        return equipos.stream().filter(equipo -> equipo.getNombre().contains(nombre)).toList();
+        return this.equipoRepository.findByNombreContainingIgnoreCase(nombre);
     }
 
     public Equipo guardarNuevoEquipo(Equipo equipo){
