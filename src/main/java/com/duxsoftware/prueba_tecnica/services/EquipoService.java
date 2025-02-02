@@ -3,6 +3,7 @@ package com.duxsoftware.prueba_tecnica.services;
 import com.duxsoftware.prueba_tecnica.dtos.EquipoDTO;
 import com.duxsoftware.prueba_tecnica.enums.MensajeErrorEnum;
 import com.duxsoftware.prueba_tecnica.exceptions.EquipoNoEncontradoException;
+import com.duxsoftware.prueba_tecnica.exceptions.SolicitudInvalidaException;
 import com.duxsoftware.prueba_tecnica.factories.EquipoFactory;
 import com.duxsoftware.prueba_tecnica.mappers.EquipoMapper;
 import com.duxsoftware.prueba_tecnica.model.Equipo;
@@ -32,7 +33,7 @@ public class EquipoService {
     }
 
     public Equipo guardarNuevoEquipo(EquipoDTO equipoDTO){
-        //TODO agregar validacion para no persistir un equipo que ya este en BD
+        this.validarExistenciaEquipo(equipoDTO);
         Equipo nuevoEquipo = EquipoFactory.crearEquipo(equipoDTO);
         return this.equipoRepository.save(nuevoEquipo);
     }
@@ -56,6 +57,18 @@ public class EquipoService {
             return equipoOptional.get();
         }else{
             throw new EquipoNoEncontradoException(MensajeErrorEnum.EQUIPO_NO_ENCONTRADO);
+        }
+    }
+
+    private void validarExistenciaEquipo(EquipoDTO equipoDTO){
+        /*
+        * No puede existir dos equipos con la misma combinacion de Nombre, Liga y Pais
+        * */
+        if(this.equipoRepository
+                .existsByNombreIgnoreCaseAndLigaIgnoreCaseAndPaisIgnoreCase(equipoDTO.getNombre(),
+                        equipoDTO.getLiga(),
+                        equipoDTO.getPais())){
+            throw new SolicitudInvalidaException(MensajeErrorEnum.SOLICITUD_INVALIDA);
         }
     }
 }

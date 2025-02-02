@@ -10,4 +10,5 @@ import java.util.List;
 public interface EquipoRepository extends JpaRepository<Equipo,Long> {
 
     List<Equipo> findByNombreContainingIgnoreCase(String nombre);
+    boolean existsByNombreIgnoreCaseAndLigaIgnoreCaseAndPaisIgnoreCase(String nombre, String liga, String pais);
 }
