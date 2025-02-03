@@ -3,6 +3,9 @@ package com.duxsoftware.prueba_tecnica.controllers;
 import com.duxsoftware.prueba_tecnica.dtos.EquipoDTO;
 import com.duxsoftware.prueba_tecnica.model.Equipo;
 import com.duxsoftware.prueba_tecnica.services.EquipoService;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,23 @@ public class EquipoController {
     @Autowired
     private EquipoService equipoService;
 
+    @ApiResponse(responseCode = "200", description = "OK",
+            content = @Content(examples = @ExampleObject(value = """
+            [
+                {
+              "id": 1,
+              "nombre": "Real Madrid",
+              "liga": "La Liga",
+              "pais": "España"
+            },
+            {
+              "id": 2,
+              "nombre": "FC Barcelona",
+              "liga": "La Liga",
+              "pais": "España"
+            }
+            ]
+        """)))
     @GetMapping
     public ResponseEntity<List<Equipo>> obtenerTodosLosEquipos(){
         return ResponseEntity.ok(this.equipoService.todosLosEquipos());
